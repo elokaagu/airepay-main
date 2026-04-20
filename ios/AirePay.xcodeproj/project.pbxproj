@@ -9,14 +9,27 @@
 /* Begin PBXBuildFile section */
 		173736CAC7CE039D9E5C3FBD /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA40A6C1CD33E6415B6A3D9F /* AppConfig.swift */; };
 		33DE4B21B84FE2ACD08C0EBD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5E7BD9F110C993D488681A /* ContentView.swift */; };
+		5E14743A5942A997D7CA4048 /* AireTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11C67A62A48289C5308613C /* AireTab.swift */; };
 		6E75B31225D3DFA9E5C84BCF /* AirePayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC41B9A3710DB1F80803623 /* AirePayApp.swift */; };
+		96982F730697B37561991AA2 /* AireTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD8E3FD77643E89551B987C /* AireTheme.swift */; };
+		A2A740CD6F117F7669E40325 /* TabIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F83A1936B518E3A71965EB7 /* TabIcons.swift */; };
+		A661F14C893EDF503292E49C /* DeviceWebHostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780A30F35EF7C24ACF529FA6 /* DeviceWebHostView.swift */; };
+		AC8212500EC1E2AFDDD72CB4 /* MainShellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC494D2504457F0FFB21FC99 /* MainShellView.swift */; };
+		FC0D2C4C3AB04B471B852F02 /* AireWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E11058F90E46559248973D /* AireWebView.swift */; };
 		FF5C29A4713CCCB2BBAA6919 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DF211FED45F4CDD5C23FD8A /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F83A1936B518E3A71965EB7 /* TabIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabIcons.swift; sourceTree = "<group>"; };
+		3CD8E3FD77643E89551B987C /* AireTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AireTheme.swift; sourceTree = "<group>"; };
+		495679BDFE16B75C8C603B5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		54E11058F90E46559248973D /* AireWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AireWebView.swift; sourceTree = "<group>"; };
+		780A30F35EF7C24ACF529FA6 /* DeviceWebHostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceWebHostView.swift; sourceTree = "<group>"; };
 		9DF211FED45F4CDD5C23FD8A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A88D496D894CA8EB4B46348D /* AirePay.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AirePay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACC41B9A3710DB1F80803623 /* AirePayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirePayApp.swift; sourceTree = "<group>"; };
+		D11C67A62A48289C5308613C /* AireTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AireTab.swift; sourceTree = "<group>"; };
+		EC494D2504457F0FFB21FC99 /* MainShellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainShellView.swift; sourceTree = "<group>"; };
 		FA40A6C1CD33E6415B6A3D9F /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		FE5E7BD9F110C993D488681A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -42,9 +55,16 @@
 			isa = PBXGroup;
 			children = (
 				ACC41B9A3710DB1F80803623 /* AirePayApp.swift */,
+				D11C67A62A48289C5308613C /* AireTab.swift */,
+				3CD8E3FD77643E89551B987C /* AireTheme.swift */,
+				54E11058F90E46559248973D /* AireWebView.swift */,
 				FA40A6C1CD33E6415B6A3D9F /* AppConfig.swift */,
 				9DF211FED45F4CDD5C23FD8A /* Assets.xcassets */,
 				FE5E7BD9F110C993D488681A /* ContentView.swift */,
+				780A30F35EF7C24ACF529FA6 /* DeviceWebHostView.swift */,
+				495679BDFE16B75C8C603B5F /* Info.plist */,
+				EC494D2504457F0FFB21FC99 /* MainShellView.swift */,
+				2F83A1936B518E3A71965EB7 /* TabIcons.swift */,
 			);
 			path = AirePay;
 			sourceTree = "<group>";
@@ -117,8 +137,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E75B31225D3DFA9E5C84BCF /* AirePayApp.swift in Sources */,
+				5E14743A5942A997D7CA4048 /* AireTab.swift in Sources */,
+				96982F730697B37561991AA2 /* AireTheme.swift in Sources */,
+				FC0D2C4C3AB04B471B852F02 /* AireWebView.swift in Sources */,
 				173736CAC7CE039D9E5C3FBD /* AppConfig.swift in Sources */,
 				33DE4B21B84FE2ACD08C0EBD /* ContentView.swift in Sources */,
+				A661F14C893EDF503292E49C /* DeviceWebHostView.swift in Sources */,
+				AC8212500EC1E2AFDDD72CB4 /* MainShellView.swift in Sources */,
+				A2A740CD6F117F7669E40325 /* TabIcons.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +159,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AirePay/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Aire;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -160,6 +187,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AirePay/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Aire;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

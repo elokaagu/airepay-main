@@ -18,6 +18,8 @@ targets:
     platform: iOS
     sources:
       - path: AirePay
+    info:
+      path: AirePay/Info.plist
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.airepay.AirePay
