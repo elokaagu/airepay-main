@@ -2,25 +2,23 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-function readEnv(...keys: string[]): string | undefined {
-  for (const key of keys) {
-    const v = process.env[key];
-    if (v != null && String(v).trim() !== "") return String(v).trim();
-  }
-  return undefined;
+function trimEnv(v: string | undefined): string | undefined {
+  if (v == null) return undefined;
+  const t = v.trim();
+  return t === "" ? undefined : t;
 }
 
 function createSupabaseClient() {
-  const SUPABASE_URL = readEnv(
-    "NEXT_PUBLIC_SUPABASE_URL",
-    "SUPABASE_URL",
-    "VITE_SUPABASE_URL",
-  );
-  const SUPABASE_PUBLISHABLE_KEY = readEnv(
-    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
-    "SUPABASE_PUBLISHABLE_KEY",
-    "VITE_SUPABASE_PUBLISHABLE_KEY",
-  );
+  // IMPORTANT: use static `process.env.NEXT_PUBLIC_*` identifiers only.
+  // Dynamic `process.env[key]` is NOT inlined into the browser bundle, so client-side reads fail in dev/prod.
+  const SUPABASE_URL =
+    trimEnv(process.env.NEXT_PUBLIC_SUPABASE_URL) ||
+    trimEnv(process.env.SUPABASE_URL) ||
+    trimEnv(process.env.VITE_SUPABASE_URL);
+  const SUPABASE_PUBLISHABLE_KEY =
+    trimEnv(process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) ||
+    trimEnv(process.env.SUPABASE_PUBLISHABLE_KEY) ||
+    trimEnv(process.env.VITE_SUPABASE_PUBLISHABLE_KEY);
 
   if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
     throw new Error(
