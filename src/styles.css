@@ -1,0 +1,399 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+@import "tailwindcss";
+@source "../src";
+
+@font-face {
+  font-family: "Druk Wide";
+  src: url("/src/assets/fonts/DrukWideBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Aston Script";
+  src: url("/src/assets/fonts/Aston_Script.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * PLOMO — Goal-Native Financial Engine
+ * Dark = Pipe-style obsidian. Light = Brex-style off-white editorial.
+ */
+
+@theme inline {
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-druk: "Druk Wide", "Inter", ui-sans-serif, sans-serif;
+  --font-script: "Aston Script", "Apple Chancery", cursive;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-invert: var(--surface-invert);
+  --color-foreground-invert: var(--foreground-invert);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-orange: var(--orange);
+  --color-orange-deep: var(--orange-deep);
+  --color-orange-ink: var(--orange-ink);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* ---------- DARK (default — Pipe obsidian) ---------- */
+:root,
+.dark {
+  --radius: 0.5rem;
+
+  --background: oklch(0 0 0);
+  --foreground: oklch(0.98 0 0);
+  --surface: oklch(0.08 0 0);
+  --surface-2: oklch(0.12 0 0);
+  --surface-invert: oklch(0.96 0 0); /* light panel inside dark */
+  --foreground-invert: oklch(0.12 0 0);
+  --card: oklch(0.08 0 0);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.08 0 0);
+  --popover-foreground: oklch(0.98 0 0);
+
+  --primary: oklch(0.6 0.21 268);
+  --primary-foreground: oklch(0.98 0 0);
+  --orange: oklch(0.6 0.21 268);
+  --orange-deep: oklch(0.54 0.22 268);
+  /* Text-readable variant — same hue, used for .text-orange. On dark bg keep it bright. */
+  --orange-ink: oklch(0.72 0.18 268);
+
+  --secondary: oklch(0.14 0 0);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.12 0 0);
+  --muted-foreground: oklch(0.55 0 0);
+  --accent: oklch(0.6 0.21 268);
+  --accent-foreground: oklch(0.98 0 0);
+
+  --destructive: oklch(0.62 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+
+  --border: oklch(0.18 0 0);
+  --border-strong: oklch(0.28 0 0);
+  --input: oklch(0.18 0 0);
+  --ring: oklch(0.6 0.21 268);
+
+  --chart-1: oklch(0.6 0.21 268);
+  --chart-2: oklch(0.72 0.18 268);
+  --chart-3: oklch(0.55 0.16 295);
+  --chart-4: oklch(0.66 0.21 25);
+  --chart-5: oklch(0.86 0.18 78);
+
+  --sidebar: oklch(0.08 0 0);
+  --sidebar-foreground: oklch(0.98 0 0);
+  --sidebar-primary: oklch(0.6 0.21 268);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.14 0 0);
+  --sidebar-accent-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(0.18 0 0);
+  --sidebar-ring: oklch(0.6 0.21 268);
+
+  --gradient-warm: linear-gradient(135deg, oklch(0.6 0.21 268), oklch(0.54 0.22 280));
+}
+
+/* ---------- LIGHT (Brex editorial) ---------- */
+.light {
+  --radius: 0.75rem;
+
+  /* Soft off-white canvas */
+  --background: oklch(0.985 0.003 90);
+  --foreground: oklch(0.13 0 0);
+  --surface: oklch(0.955 0.004 90); /* light grey card panel */
+  --surface-2: oklch(0.92 0.005 90);
+  --surface-invert: oklch(0.13 0 0); /* dark panel inside light */
+  --foreground-invert: oklch(0.985 0.003 90);
+  --card: oklch(0.955 0.004 90);
+  --card-foreground: oklch(0.13 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.13 0 0);
+
+  --primary: oklch(0.6 0.21 268);
+  --primary-foreground: oklch(0.98 0 0);
+  --orange: oklch(0.6 0.21 268);
+  --orange-deep: oklch(0.54 0.22 268);
+  /* Use the blue as the accent text color across themes. */
+  --orange-ink: oklch(0.5 0.22 268);
+
+  --secondary: oklch(0.93 0.004 90);
+  --secondary-foreground: oklch(0.13 0 0);
+  --muted: oklch(0.93 0.004 90);
+  --muted-foreground: oklch(0.45 0.005 90);
+  --accent: oklch(0.6 0.21 268);
+  --accent-foreground: oklch(0.98 0 0);
+
+  --destructive: oklch(0.62 0.22 25);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  --border: oklch(0.9 0.004 90);
+  --border-strong: oklch(0.78 0.005 90);
+  --input: oklch(0.9 0.004 90);
+  --ring: oklch(0.6 0.21 268);
+
+  --chart-1: oklch(0.6 0.21 268);
+  --chart-2: oklch(0.72 0.18 268);
+  --chart-3: oklch(0.55 0.16 295);
+  --chart-4: oklch(0.6 0.21 25);
+  --chart-5: oklch(0.7 0.18 78);
+
+  --sidebar: oklch(0.985 0.003 90);
+  --sidebar-foreground: oklch(0.13 0 0);
+  --sidebar-primary: oklch(0.6 0.21 268);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.93 0.004 90);
+  --sidebar-accent-foreground: oklch(0.13 0 0);
+  --sidebar-border: oklch(0.9 0.004 90);
+  --sidebar-ring: oklch(0.6 0.21 268);
+
+  --gradient-warm: linear-gradient(135deg, oklch(0.6 0.21 268), oklch(0.54 0.22 280));
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  html,
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01", "cv11";
+    letter-spacing: -0.014em;
+    transition:
+      background-color 0.4s ease,
+      color 0.4s ease;
+  }
+
+  /* Universal smooth transitions for interactive surfaces */
+  a,
+  button,
+  [role="button"] {
+    transition:
+      color 0.25s ease,
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      opacity 0.25s ease,
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  img {
+    /* Prevent layout flash before load handler fires */
+    background-color: var(--color-surface-2);
+  }
+
+  /* Respect users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  ::selection {
+    background: var(--orange);
+    color: var(--primary-foreground);
+  }
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.035em;
+    font-feature-settings: "ss01", "cv11";
+  }
+  h1 {
+    letter-spacing: -0.045em;
+  }
+  h2 {
+    letter-spacing: -0.04em;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    font-feature-settings: "ss01", "cv11";
+  }
+  .font-druk {
+    font-family: var(--font-druk);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+  .font-script {
+    font-family: var(--font-script);
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+  .tracking-tightest {
+    letter-spacing: -0.05em;
+  }
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+  .text-orange {
+    color: var(--orange-ink);
+  }
+  .bg-orange {
+    background-color: var(--orange);
+  }
+  .bg-surface {
+    background-color: var(--surface);
+  }
+  .bg-surface-2 {
+    background-color: var(--surface-2);
+  }
+  .bg-surface-invert {
+    background-color: var(--surface-invert);
+  }
+  .text-foreground-invert {
+    color: var(--foreground-invert);
+  }
+  .border-strong {
+    border-color: var(--border-strong);
+  }
+  .gradient-warm {
+    background: var(--gradient-warm);
+  }
+
+  /* Magic UI — marquee */
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+  .animate-marquee {
+    animation: marquee var(--duration) linear infinite;
+  }
+  .animate-marquee-vertical {
+    animation: marquee-vertical var(--duration) linear infinite;
+  }
+
+  /* Magic UI — shiny text */
+  @keyframes shiny-text {
+    0%,
+    90%,
+    100% {
+      background-position: calc(-100% - var(--shiny-width)) 0;
+    }
+    30%,
+    60% {
+      background-position: calc(100% + var(--shiny-width)) 0;
+    }
+  }
+  .animate-shiny-text {
+    animation: shiny-text 8s infinite;
+  }
+
+  @keyframes ticker-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+  .ticker-pulse {
+    animation: ticker-pulse 2s ease-in-out infinite;
+  }
+
+  /* Mockup card — concentric stacked layers */
+  .stack-card {
+    position: relative;
+  }
+  .stack-card::before,
+  .stack-card::after {
+    content: "";
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    pointer-events: none;
+  }
+  .stack-card::before {
+    bottom: -8px;
+    height: 24px;
+    opacity: 0.7;
+  }
+  .stack-card::after {
+    bottom: -16px;
+    left: 16px;
+    right: 16px;
+    height: 24px;
+    opacity: 0.4;
+  }
+}

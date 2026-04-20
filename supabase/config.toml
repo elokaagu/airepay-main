@@ -1,0 +1,3 @@
+# Project ref from URL: https://wfddprtwwjpqguwegojv.supabase.co
+# Re-run `npx supabase link --project-ref wfddprtwwjpqguwegojv` if CLI loses the link.
+project_id = "wfddprtwwjpqguwegojv"

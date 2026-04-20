@@ -1,0 +1,4 @@
+"use client";
+import { Route as RouteDef } from "@/routes/app.goals";
+import { RoutePage } from "@/next/route-adapter";
+export default function Page() { return <RoutePage route={RouteDef as any} pathname="/app/goals" />; }
