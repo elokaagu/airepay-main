@@ -33,6 +33,15 @@ Under **Xcode debugging on a device**, WebKit child processes often start slowly
 
 The log line **`Failed to resolve host network app id … com.apple.WebKit.Networking`** is often a **benign system message** on recent iOS; if everything loads, you can ignore it.
 
+### “Could not connect to the server”
+
+Usually the phone cannot reach your Mac over the LAN:
+
+- Confirm **`AIRE_WEB_BASE_URL`** is `http://<Mac-Wi-Fi-IP>:3000` (not `localhost` on device).
+- Run Next with **`--hostname 0.0.0.0`** so it listens on the network interface.
+- On the Mac, allow incoming **port 3000** in the firewall (System Settings → Network / Firewall).
+- Phone and Mac on the **same Wi‑Fi** (guest networks often block device-to-device).
+
 ### “Failed to open URL localhost” / “Request is not trusted”
 
 That usually means something tried to open **plain HTTP localhost** in **Safari** from the device (where no dev server runs), or a `target=_blank` handoff. The app now keeps new-window navigations **inside `WKWebView`** and blocks **device + missing `AIRE_WEB_BASE_URL`** from loading localhost at all.

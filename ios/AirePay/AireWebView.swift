@@ -45,27 +45,35 @@ struct AireWebView: UIViewRepresentable {
             self.loadError = loadError
         }
 
+        /// Never write `Binding` state synchronously from `updateUIView` / WebKit callbacks — defers to next run-loop turn to avoid "Modifying state during view update".
+        private func reportLoadError(_ value: String?) {
+            let binding = loadError
+            DispatchQueue.main.async {
+                binding.wrappedValue = value
+            }
+        }
+
         func apply(path: String, to webView: WKWebView) {
             if lastLoadedPath == path { return }
             if lastLoadedPath != nil {
                 webView.stopLoading()
             }
             lastLoadedPath = path
-            loadError.wrappedValue = nil
+            reportLoadError(nil)
             let url = AppConfig.url(forPath: path)
             webView.load(URLRequest(url: url))
         }
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            loadError.wrappedValue = nil
+            reportLoadError(nil)
         }
 
         func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-            loadError.wrappedValue = error.localizedDescription
+            reportLoadError(error.localizedDescription)
         }
 
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-            loadError.wrappedValue = error.localizedDescription
+            reportLoadError(error.localizedDescription)
         }
 
         /// Keep `target=_blank` / new-window navigations inside this WebView (avoids SpringBoard trying to open untrusted `http://` in Safari).
@@ -75,8 +83,10 @@ struct AireWebView: UIViewRepresentable {
             decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
         ) {
             if navigationAction.targetFrame == nil, let url = navigationAction.request.url {
-                webView.load(URLRequest(url: url))
                 decisionHandler(.cancel)
+                DispatchQueue.main.async {
+                    webView.load(URLRequest(url: url))
+                }
                 return
             }
             decisionHandler(.allow)
@@ -89,7 +99,9 @@ struct AireWebView: UIViewRepresentable {
             windowFeatures: WKWindowFeatures
         ) -> WKWebView? {
             if let url = navigationAction.request.url {
-                webView.load(URLRequest(url: url))
+                DispatchQueue.main.async {
+                    webView.load(URLRequest(url: url))
+                }
             }
             return nil
         }
