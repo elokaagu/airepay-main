@@ -12,7 +12,8 @@
     "format": "prettier --write .",
     "supabase:link": "supabase link",
     "supabase:push": "supabase db push",
-    "supabase:status": "supabase migration list"
+    "supabase:status": "supabase migration list",
+    "ios:gen": "command -v xcodegen >/dev/null 2>&1 || (echo 'XcodeGen not found. Install with: brew install xcodegen' >&2; exit 1); cd ios && xcodegen generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
