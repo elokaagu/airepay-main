@@ -1,6 +1,15 @@
-"use client";
 import type { ReactNode } from "react";
-import { usePathname } from "next/navigation";
-import { Route as RouteDef } from "@/routes/m";
-import { RouteLayout } from "@/next/route-adapter";
-export default function Layout({ children }: { children: ReactNode }) { const pathname = usePathname() || "/m"; return <RouteLayout route={RouteDef as any} pathname={pathname}>{children}</RouteLayout>; }
+import { headers } from "next/headers";
+import { NativeEmbedShellProvider } from "@/lib/native-embed-context";
+import { MobileLayoutRoute } from "./mobile-layout-route";
+
+export default async function MLayout({ children }: { children: ReactNode }) {
+  const h = await headers();
+  const nativeEmbedShell = h.get("x-aire-native-embed") === "1";
+
+  return (
+    <NativeEmbedShellProvider value={nativeEmbedShell}>
+      <MobileLayoutRoute>{children}</MobileLayoutRoute>
+    </NativeEmbedShellProvider>
+  );
+}

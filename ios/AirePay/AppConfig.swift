@@ -31,8 +31,12 @@ enum AppConfig {
         var components = URLComponents(url: webRoot, resolvingAgainstBaseURL: false) ?? URLComponents()
         let p = path.hasPrefix("/") ? path : "/" + path
         components.path = p
-        components.query = nil
         components.fragment = nil
+        var items = components.queryItems ?? []
+        if p.hasPrefix("/m"), !items.contains(where: { $0.name == "embed" }) {
+            items.append(URLQueryItem(name: "embed", value: "1"))
+        }
+        components.queryItems = items.isEmpty ? nil : items
         return components.url ?? webRoot
     }
 

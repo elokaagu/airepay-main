@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, useState, type ReactElement } from "react";
 import { useAuth } from "@/lib/auth-context";
+import { useNativeEmbedShell } from "@/lib/native-embed-context";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/m")({
@@ -104,6 +105,7 @@ const TABS: {
 ];
 
 function MobileLayout() {
+  const nativeEmbedShell = useNativeEmbedShell();
   const { session, loading, user } = useAuth();
   const navigate = useNavigate();
   const path = useRouterState({ select: (s) => s.location.pathname });
@@ -141,6 +143,16 @@ function MobileLayout() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black text-[13px] text-white/60">
         Loading…
+      </div>
+    );
+  }
+
+  if (nativeEmbedShell) {
+    return (
+      <div className="relative mx-auto flex min-h-[100dvh] max-w-[480px] flex-col bg-black text-white">
+        <main className="min-h-0 flex-1 overflow-y-auto">
+          <Outlet />
+        </main>
       </div>
     );
   }

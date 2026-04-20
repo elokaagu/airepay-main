@@ -1,6 +1,6 @@
 # Aire — iOS (SwiftUI)
 
-Native shell around the **same Next.js app** you run for web: Goals, Wishlist, Bond, Compare (simulator), Earn, onboarding, Supabase auth, etc. The UI matches the **`/m` mobile** layout (black canvas, glass header, floating pill tab bar).
+Native shell around the **same Next.js app** you run for web: Goals, Wishlist, Bond, Compare (simulator), Earn, onboarding, Supabase auth, etc. The Swift chrome matches the **`/m` mobile** look (black canvas, glass header, floating pill tab bar). The WebView requests **`/m/*?embed=1`**, which enables a **chromeless** web layout so you do not get a second header/tab bar inside the page—only the **page body** is still React until you reimplement screens in Swift.
 
 ## Open in Xcode
 
