@@ -7,10 +7,15 @@ import { RouteContextProvider } from "@/lib/router-shim";
 type RouteLike = {
   options?: {
     component?: React.ComponentType<any>;
+    notFoundComponent?: React.ComponentType<any>;
     loader?: (args: { params: Record<string, string> }) => unknown;
     validateSearch?: (search: Record<string, unknown>) => Record<string, unknown>;
   };
 };
+
+function isNotFoundError(e: unknown): boolean {
+  return e instanceof Error && (e as Error & { __notFound?: boolean }).__notFound === true;
+}
 
 function searchObject(searchParams: URLSearchParams): Record<string, string> {
   const obj: Record<string, string> = {};
@@ -35,7 +40,24 @@ export function RoutePage({
   const search = validateSearch ? validateSearch(rawSearch) : rawSearch;
 
   const loader = route.options?.loader;
-  const loaderData = loader ? loader({ params }) : undefined;
+  let loaderData: unknown;
+  if (loader) {
+    try {
+      loaderData = loader({ params });
+    } catch (e) {
+      if (isNotFoundError(e)) {
+        const NotFound = route.options?.notFoundComponent;
+        if (NotFound) {
+          return (
+            <RouteContextProvider value={{ pathname, params, search, loaderData: undefined }}>
+              <NotFound />
+            </RouteContextProvider>
+          );
+        }
+      }
+      throw e;
+    }
+  }
   const Component = route.options?.component;
   if (!Component) return null;
 
