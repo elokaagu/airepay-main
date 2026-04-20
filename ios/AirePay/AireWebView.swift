@@ -1,3 +1,4 @@
+import Foundation
 import SwiftUI
 import WebKit
 
@@ -53,6 +54,15 @@ struct AireWebView: UIViewRepresentable {
             }
         }
 
+        /// `-999` / `NSURLErrorCancelled` happens when `stopLoading()` or a new `load` replaces an in-flight navigation (e.g. tab switches). Not user-facing failures.
+        /// `WebKit` `102` is often frame load interrupted for the same reason.
+        private func shouldReportNavigationFailure(_ error: Error) -> Bool {
+            let err = error as NSError
+            if err.domain == NSURLErrorDomain, err.code == NSURLErrorCancelled { return false }
+            if err.domain == "WebKitErrorDomain", err.code == 102 { return false }
+            return true
+        }
+
         func apply(path: String, to webView: WKWebView) {
             if lastLoadedPath == path { return }
             if lastLoadedPath != nil {
@@ -69,11 +79,15 @@ struct AireWebView: UIViewRepresentable {
         }
 
         func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-            reportLoadError(error.localizedDescription)
+            if shouldReportNavigationFailure(error) {
+                reportLoadError(error.localizedDescription)
+            }
         }
 
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-            reportLoadError(error.localizedDescription)
+            if shouldReportNavigationFailure(error) {
+                reportLoadError(error.localizedDescription)
+            }
         }
 
         /// Keep `target=_blank` / new-window navigations inside this WebView (avoids SpringBoard trying to open untrusted `http://` in Safari).
