@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
+  Animated,
   Modal,
   Pressable,
   ScrollView,
@@ -70,6 +71,7 @@ function Shell() {
   const [bondPartnerLabel, setBondPartnerLabel] = useState("");
   const [bondToken, setBondToken] = useState("");
   const [openWish, setOpenWish] = useState<WishlistItem | null>(null);
+  const [sheetAnim] = useState(() => new Animated.Value(0));
 
   const northStar = useMemo(
     () => goals.find((g) => g.is_north_star) ?? goals.find((g) => g.priority === "P1") ?? goals[0],
@@ -240,6 +242,28 @@ function Shell() {
     return { soloDays: solo, bondedDays: bonded, daysSaved: Math.max(0, solo - bonded) };
   }
 
+  useEffect(() => {
+    Animated.timing(sheetAnim, {
+      toValue: openWish ? 1 : 0,
+      duration: 220,
+      useNativeDriver: true,
+    }).start();
+  }, [openWish, sheetAnim]);
+
+  function verdictLabel(verdict: WishlistItem["verdict"]) {
+    if (verdict === "go") return "Go";
+    if (verdict === "caution") return "Pause";
+    if (verdict === "defer") return "Defer";
+    return "Pending";
+  }
+
+  function verdictStyle(verdict: WishlistItem["verdict"]) {
+    if (verdict === "go") return styles.chipGo;
+    if (verdict === "caution") return styles.chipPause;
+    if (verdict === "defer") return styles.chipDefer;
+    return styles.chipPending;
+  }
+
   async function saveSettings() {
     if (!userId) return;
     await saveProfileSettings(userId, {
@@ -374,7 +398,12 @@ function Shell() {
                     <Text style={styles.text}>{item.name}</Text>
                     <Text style={styles.text}>${Number(item.price).toLocaleString()}</Text>
                   </Row>
-                  <Text style={styles.muted}>{item.verdict_text ?? item.verdict}</Text>
+                  <Row>
+                    <Text style={styles.muted}>{item.verdict_text ?? item.verdict}</Text>
+                    <View style={[styles.chip, verdictStyle(item.verdict)]}>
+                      <Text style={styles.chipText}>{verdictLabel(item.verdict)}</Text>
+                    </View>
+                  </Row>
                 </Card>
               </Pressable>
             ))}
@@ -468,6 +497,7 @@ function Shell() {
                     <Button
                       label={sharedGoalIds.has(g.id) ? "Unshare" : "Share"}
                       onPress={() => void toggleShare(g.id)}
+                      compact
                     />
                   </Row>
                 ))}
@@ -508,11 +538,29 @@ function Shell() {
       </ScrollView>
       <Modal visible={Boolean(openWish)} transparent animationType="slide" onRequestClose={() => setOpenWish(null)}>
         <View style={styles.modalBackdrop}>
-          <View style={styles.modalSheet}>
+          <Animated.View
+            style={[
+              styles.modalSheet,
+              {
+                transform: [
+                  {
+                    translateY: sheetAnim.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [360, 0],
+                    }),
+                  },
+                ],
+              },
+            ]}
+          >
             {openWish ? (
               <>
+                <View style={styles.sheetHandle} />
                 <Text style={styles.title}>{openWish.name}</Text>
                 <Text style={styles.muted}>${Number(openWish.price).toLocaleString()}</Text>
+                <View style={[styles.chip, verdictStyle(openWish.verdict)]}>
+                  <Text style={styles.chipText}>{verdictLabel(openWish.verdict)}</Text>
+                </View>
                 <Text style={styles.text}>{openWish.verdict_text ?? "No verdict yet."}</Text>
                 {openWish.alternatives?.length ? (
                   <View style={styles.metricCard}>
@@ -526,17 +574,17 @@ function Shell() {
                   </View>
                 ) : null}
                 <Row>
-                  <Button label="Analyse" onPress={() => void runWishlistVerdict(openWish.id)} />
-                  <Button label="Plan" onPress={() => void planWishlistItem(openWish)} />
+                  <Button label="Analyse" onPress={() => void runWishlistVerdict(openWish.id)} compact />
+                  <Button label="Plan" onPress={() => void planWishlistItem(openWish)} compact />
                 </Row>
                 <Row>
-                  <Button label="Defer" onPress={() => void deferWishlistItem(openWish.id)} />
-                  <Button label="Remove" onPress={() => void removeWishlistItem(openWish.id)} />
+                  <Button label="Defer" onPress={() => void deferWishlistItem(openWish.id)} compact />
+                  <Button label="Remove" onPress={() => void removeWishlistItem(openWish.id)} compact />
                 </Row>
                 <Button label="Close" onPress={() => setOpenWish(null)} />
               </>
             ) : null}
-          </View>
+          </Animated.View>
         </View>
       </Modal>
       <View style={[styles.bottom, { paddingBottom: Math.max(10, insets.bottom + 6) }]}>
@@ -560,10 +608,10 @@ function Row({ children }: { children: React.ReactNode }) {
   return <View style={styles.row}>{children}</View>;
 }
 
-function Button({ label, onPress }: { label: string; onPress: () => void }) {
+function Button({ label, onPress, compact = false }: { label: string; onPress: () => void; compact?: boolean }) {
   return (
-    <Pressable style={styles.button} onPress={onPress}>
-      <Text style={styles.buttonText}>{label}</Text>
+    <Pressable style={[styles.button, compact && styles.buttonCompact]} onPress={onPress}>
+      <Text style={[styles.buttonText, compact && styles.buttonTextCompact]}>{label}</Text>
     </Pressable>
   );
 }
@@ -599,12 +647,25 @@ const styles = StyleSheet.create({
   input: { borderColor: "#ffffff1a", borderWidth: 1, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 9, color: "#f5f7fb" },
   button: { backgroundColor: "#f8fafc", borderRadius: 999, paddingHorizontal: 12, paddingVertical: 10, alignItems: "center" },
   buttonText: { color: "#0f172a", fontSize: 12, fontWeight: "700" },
+  buttonCompact: { paddingHorizontal: 10, paddingVertical: 7, backgroundColor: "#ffffffd9" },
+  buttonTextCompact: { fontSize: 11 },
   choice: { borderColor: "#ffffff1a", borderWidth: 1, borderRadius: 999, paddingHorizontal: 10, paddingVertical: 7 },
   choiceActive: { backgroundColor: "#f8fafc" },
   choiceText: { color: "#f5f7fb", fontSize: 11, fontWeight: "600" },
   choiceTextActive: { color: "#0f172a" },
   metricCard: { borderWidth: 1, borderColor: "#ffffff1a", borderRadius: 12, padding: 10, gap: 3 },
   metricGood: { color: "#22c55e", fontSize: 12, fontWeight: "700" },
+  chip: {
+    borderRadius: 999,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderWidth: 1,
+  },
+  chipText: { fontSize: 10, fontWeight: "700", textTransform: "uppercase", letterSpacing: 0.3 },
+  chipGo: { backgroundColor: "#10b98126", borderColor: "#10b98166" },
+  chipPause: { backgroundColor: "#f59e0b26", borderColor: "#f59e0b66" },
+  chipDefer: { backgroundColor: "#ef444426", borderColor: "#ef444466" },
+  chipPending: { backgroundColor: "#ffffff14", borderColor: "#ffffff22" },
   modalBackdrop: { flex: 1, backgroundColor: "#000000aa", justifyContent: "flex-end" },
   modalSheet: {
     backgroundColor: "#111318",
@@ -614,6 +675,14 @@ const styles = StyleSheet.create({
     gap: 10,
     borderWidth: 1,
     borderColor: "#ffffff1a",
+  },
+  sheetHandle: {
+    alignSelf: "center",
+    width: 36,
+    height: 4,
+    borderRadius: 999,
+    backgroundColor: "#ffffff33",
+    marginBottom: 6,
   },
   bottom: { position: "absolute", left: 0, right: 0, bottom: 0, paddingHorizontal: 10, backgroundColor: "#0c0f14" },
   tabBar: { flexDirection: "row", gap: 6, backgroundColor: "#0e121ae6", borderRadius: 26, borderWidth: 1, borderColor: "#ffffff1a", padding: 6 },
